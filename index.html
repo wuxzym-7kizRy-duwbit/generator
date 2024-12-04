@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор пароля</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff6f61, #ff9f6d); /* Красивый фон */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #password {
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f1f1f1;
+            color: #333;
+            word-wrap: break-word;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .options {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .options label {
+            font-size: 14px;
+        }
+
+        .options input {
+            margin-right: 10px;
+            accent-color: #4CAF50;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Генератор пароля</h1>
+
+        <!-- Поле для отображения сгенерированного пароля -->
+        <input type="text" id="password" readonly placeholder="Нажмите для генерации пароля">
+
+        <!-- Кнопка для генерации пароля -->
+        <button onclick="generatePassword()">Сгенерировать пароль</button>
+
+        <!-- Опции генерации пароля -->
+        <div class="options">
+            <label><input type="checkbox" id="useLowercase" checked> Строчные буквы</label><br>
+            <label><input type="checkbox" id="useUppercase" checked> Заглавные буквы</label><br>
+            <label><input type="checkbox" id="useNumbers" checked> Цифры</label><br>
+            <label><input type="checkbox" id="useSpecialChars" checked> Специальные символы</label><br>
+            <label>Длина пароля: <input type="number" id="passwordLength" value="12" min="6" max="20"></label>
+        </div>
+
+        <div class="footer">
+            <p>Пароль будет сгенерирован в соответствии с выбранными вами параметрами.</p>
+        </div>
+    </div>
+
+    <script>
+        function generatePassword() {
+            // Получаем выбранные параметры
+            const length = document.getElementById('passwordLength').value;
+            const useLowercase = document.getElementById('useLowercase').checked;
+            const useUppercase = document.getElementById('useUppercase').checked;
+            const useNumbers = document.getElementById('useNumbers').checked;
+            const useSpecialChars = document.getElementById('useSpecialChars').checked;
+
+            // Определяем доступные символы для пароля
+            let charset = '';
+            if (useLowercase) charset += 'abcdefghijklmnopqrstuvwxyz';
+            if (useUppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (useNumbers) charset += '0123456789';
+            if (useSpecialChars) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            // Проверяем, что хотя бы один набор символов выбран
+            if (charset === '') {
+                alert('Пожалуйста, выберите хотя бы одну категорию символов.');
+                return;
+            }
+
+            // Генерируем пароль
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+
+            // Отображаем пароль в поле
+            document.getElementById('password').value = password;
+        }
+    </script>
+
+</body>
+</html>
